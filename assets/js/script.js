@@ -40,6 +40,7 @@ async function postForm(e) {
     if (response.ok) { //If everything has gone well, an 'ok' property is set on the response object
         displayErrors(data)
     } else {
+        displayException(data);
         throw new Error(data.error); //data.error is the descriptive message from the json that's been returned
     };
 }
@@ -60,7 +61,7 @@ function displayErrors(data) {
     }
 
     document.getElementById("resultsModalTitle").innerText = heading; //replaces the heading with the above
-    document.getElementById("results-content").innerHTML = results; //replaces the results with the above
+    document.getElementById("results-content").innerHTML = results; //replaces the results with the above(inner html as results contains divs, not just text)
     resultsModal.show(); //shows the modal containing the list of errors (pop out window)
 }
 
@@ -75,6 +76,7 @@ async function getStatus(e) {
         // console.log(data.expiry); data.expiry will show only the date on the log
         displayStatus(data)
     } else {
+        displayException(data);
         throw new Error(data.error); //data.error is the descriptive message from the json that's been returned
     }
 }
@@ -83,6 +85,19 @@ function displayStatus(data) {
     let heading = "API Key Status";
     let results = `<div>Your key is valid until</div>`;
     results += `<div class="key-status">${data.expiry}</div>`;
+
+    document.getElementById("resultsModalTitle").innerText = heading;
+    document.getElementById("results-content").innerHTML = results;
+    resultsModal.show();
+}
+
+function displayException(data) {
+
+    let heading = `<div class="error-heading">An Exception Occurred</div>`;
+
+    results = `<div>The API returned status code ${data.status_code}</div>`;
+    results += `<div>Error number: <strong>${data.error_no}</strong></div>`;
+    results += `<div>Error text: <strong>${data.error}</strong></div>`;
 
     document.getElementById("resultsModalTitle").innerText = heading;
     document.getElementById("results-content").innerHTML = results;
