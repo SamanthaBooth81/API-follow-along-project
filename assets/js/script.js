@@ -10,8 +10,8 @@ async function getStatus(e) {
     const response = await fetch(queryString); //'awaits' for response 
 
     const data = await response.json(); //convert response to json - this also returns a promis
-    
-    if (response.ok) { //If everything has gone well, an 'ok' property is set on the response object.
-        console.log(data.expiry);
+
+    if (response.ok) { //If everything has gone well, an 'ok' property is set on the response object
+        console.log(data.expiry); //.expiry shows only the date on the log
     }
 }
